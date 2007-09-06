@@ -7,8 +7,8 @@ Name:		%{name}
 Summary:	Graphical podcast catcher and player
 Version:	%{version}
 Release:	%{release}
-
 Source0:	http://www.icepodder.com/wp-content/uploads/2007/02/%{fname}-%{version}.tar.bz2
+Patch0:		icepodder-5.4-wx26.patch
 URL:		http://www.icepodder.com/
 License:	GPLv2+
 Group:		Networking/News
@@ -19,6 +19,7 @@ Requires:	python
 Requires:	python-libxml2
 Requires:	id3
 BuildRequires:	ImageMagick
+BuildRequires:	dos2unix
 
 BuildArch:	noarch
 
@@ -41,11 +42,13 @@ download podcasts, with an emphasis on reliability and stability.
 
 %prep
 %setup -q -n %name
+%patch0 -p1 -b .wxgtk26
 
 chmod 755 `find -name '*.py'`
 perl -pi -e 's/\#\!\/bin\/python/\#\!\/usr\/bin\/python/' `find -name '*.py'`
-perl -pi -e 's,#! python,#!/usr/bin/python,g' `find -name '*.py'`
-perl -pi -e 's,#!/usr/bin/env python,#!/usr/bin/python,g' `find -name '*.py'`
+
+# This file being in Mac encoding screws up find-requires.
+dos2unix --m2u localization/catalog/et.py
 
 %build
 
