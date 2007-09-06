@@ -8,6 +8,8 @@ Summary:	Graphical podcast catcher and player
 Version:	%{version}
 Release:	%{release}
 Source0:	http://www.icepodder.com/wp-content/uploads/2007/02/%{fname}-%{version}.tar.bz2
+# Make it use only wxGTK 2.6 rather than 2.6 or later, as it does not
+# work with 2.8 - by AdamW, 2007/09
 Patch0:		icepodder-5.4-wx26.patch
 URL:		http://www.icepodder.com/
 License:	GPLv2+
