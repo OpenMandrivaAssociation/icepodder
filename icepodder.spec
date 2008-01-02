@@ -14,6 +14,7 @@ Patch0:		icepodder-5.4-wx26.patch
 URL:		http://www.icepodder.com/
 License:	GPLv2+
 Group:		Networking/News
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 Requires:	wxpython2.6
 Requires:	pyxmms
 Requires:	python
