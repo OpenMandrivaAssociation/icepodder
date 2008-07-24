@@ -1,7 +1,7 @@
 %define name	icepodder
 %define fname	IcePodder
 %define version	5.4
-%define release	%mkrel 1
+%define release	%mkrel 3
 
 Name:		%{name}
 Summary:	Graphical podcast catcher and player
