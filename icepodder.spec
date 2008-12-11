@@ -20,7 +20,7 @@ Requires:	pyxmms
 Requires:	python
 Requires:	python-libxml2
 Requires:	id3
-BuildRequires:	ImageMagick
+BuildRequires:	imagemagick
 BuildRequires:	dos2unix
 
 BuildArch:	noarch
