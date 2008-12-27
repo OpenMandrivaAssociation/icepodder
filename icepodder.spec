@@ -1,30 +1,35 @@
-%define name	icepodder
 %define fname	IcePodder
-%define version	5.4
-%define release	%mkrel 3
 
-Name:		%{name}
+%define svn	68
+%define rel	1
+
+%if %svn
+%define release		%mkrel 0.%{svn}.%{rel}
+%define distname	%{name}-%{svn}.tar.lzma
+%define dirname		%{name}
+%else
+%define release		%mkrel %{rel}
+%define distname	%{fname}-%{version}.tar.bz2
+%define dirname		%{name}
+%endif
+
+Name:		icepodder
 Summary:	Graphical podcast catcher and player
-Version:	%{version}
+Version:	5.5
 Release:	%{release}
-Source0:	http://www.icepodder.com/wp-content/uploads/2007/02/%{fname}-%{version}.tar.bz2
-# Make it use only wxGTK 2.6 rather than 2.6 or later, as it does not
-# work with 2.8 - by AdamW, 2007/09
-Patch0:		icepodder-5.4-wx26.patch
+# Note: SVN is on sourceforge - AdamW 2008/12
+Source0:	http://www.icepodder.com/wp-content/uploads/2007/02/%{distname}
 URL:		http://www.icepodder.com/
 License:	GPLv2+
 Group:		Networking/News
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-Requires:	wxpython2.6
-Requires:	pyxmms
+BuildArch:	noarch
 Requires:	python
 Requires:	python-libxml2
 Requires:	id3
+Requires:	wxPythonGTK
 BuildRequires:	imagemagick
 BuildRequires:	dos2unix
-
-BuildArch:	noarch
-
 Provides:	iPodder
 Provides:	ipodder
 Provides:	castpodder
@@ -43,11 +48,10 @@ of this project is to provide Linux users with a dedicated client to
 download podcasts, with an emphasis on reliability and stability.
 
 %prep
-%setup -q -n %name
-%patch0 -p1 -b .wxgtk26
+%setup -q -n %{dirname}
 
 chmod 755 `find -name '*.py'`
-perl -pi -e 's/\#\!\/bin\/python/\#\!\/usr\/bin\/python/' `find -name '*.py'`
+sed -i -e 's/\#\!\/bin\/python/\#\!\/usr\/bin\/python/' `find -name '*.py'`
 
 # This file being in Mac encoding screws up find-requires.
 dos2unix --m2u localization/catalog/et.py
@@ -55,20 +59,20 @@ dos2unix --m2u localization/catalog/et.py
 %build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p %buildroot/%_bindir
-mkdir -p %buildroot/%_datadir/%{name}
-install -m755 CastPodder.sh -D %buildroot/%_bindir/%{name}
-cp -r * %buildroot/%_datadir/%{name}
-chmod 755 %buildroot/%_datadir/%{name}/*/*.py
-rm -f %buildroot/%_datadir/%{name}/{Changelog,gpl.txt,INSTALL,install.sh,castpodder.desktop,CastPodder.sh,CastPodder.spec,KNOWN-ISSUES,make-distribution.sh,NOTES,LICENSE,README,TODO}
-rm -fr %buildroot/%_datadir/%{name}/build
-rm -rf %buildroot/%_datadir/%name/tools/id3-tool/*
-rm -rf %buildroot/%_datadir/%name/tools/id3-*.tar.gz
-ln -s %_bindir/id3 %buildroot/%_datadir/%name/tools/id3-tool/
+rm -rf %{buildroot}
+mkdir -p %{buildroot}/%{_bindir}
+mkdir -p %{buildroot}/%{_datadir}/%{name}
+install -m755 CastPodder.sh -D %{buildroot}/%{_bindir}/%{name}
+cp -r * %{buildroot}/%{_datadir}/%{name}
+chmod 755 %{buildroot}/%{_datadir}/%{name}/*/*.py
+rm -f %{buildroot}/%{_datadir}/%{name}/{Changelog,gpl.txt,INSTALL,install.sh,castpodder.desktop,CastPodder.sh,CastPodder.spec,KNOWN-ISSUES,make-distribution.sh,NOTES,LICENSE,README,TODO}
+rm -fr %{buildroot}/%{_datadir}/%{name}/build
+rm -rf %{buildroot}/%{_datadir}/%{name}/tools/id3-tool/*
+rm -rf %{buildroot}/%{_datadir}/%{name}/tools/id3-*.tar.gz
+ln -s %{_bindir}/id3 %{buildroot}/%{_datadir}/%{name}/tools/id3-tool/
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=IcePodder
 Comment=Podcast catcher
@@ -87,7 +91,7 @@ convert -transparent white CastPodder-32.png %{buildroot}%{_iconsdir}/hicolor/32
 convert -transparent white CastPodder-16.png %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post
@@ -103,9 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc KNOWN-ISSUES NOTES README TODO
-%{_bindir}/%name
-%{_datadir}/%name
-%_datadir/applications/mandriva*
+%doc AUTHORS CREDITS NOTES README TODO
+%{_bindir}/%{name}
+%{_datadir}/%{name}
+%{_datadir}/applications/mandriva*
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 
