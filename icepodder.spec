@@ -1,7 +1,7 @@
 %define fname	IcePodder
 
 %define svn	68
-%define rel	1
+%define rel	2
 
 %if %svn
 %define release		%mkrel 0.%{svn}.%{rel}
