@@ -113,3 +113,45 @@ rm -rf %{buildroot}
 %{_datadir}/applications/mandriva*
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 
+
+
+%changelog
+* Fri Dec 10 2010 Oden Eriksson <oeriksson@mandriva.com> 5.5-0.68.3mdv2011.0
++ Revision: 619584
+- the mass rebuild of 2010.0 packages
+
+* Fri Sep 11 2009 Thierry Vignaud <tv@mandriva.org> 5.5-0.68.2mdv2010.0
++ Revision: 437931
+- rebuild
+
+* Sat Dec 27 2008 Adam Williamson <awilliamson@mandriva.org> 5.5-0.68.1mdv2009.1
++ Revision: 319977
+- clean spec
+- no longer has any use for pyxmms
+- no longer needs wxpython 2.6, works with 2.8 - change deps, drop wx26.patch
+- bump to svn to get fix for wx 2.6 dep
+
+  + Oden Eriksson <oeriksson@mandriva.com>
+    - lowercase ImageMagick
+
+* Thu Jul 24 2008 Thierry Vignaud <tv@mandriva.org> 5.4-3mdv2009.0
++ Revision: 247151
+- rebuild
+
+  + Pixel <pixel@mandriva.com>
+    - rpm filetriggers deprecates update_menus/update_scrollkeeper/update_mime_database/update_icon_cache/update_desktop_database/post_install_gconf_schemas
+
+* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 5.4-1mdv2008.1
++ Revision: 140756
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Thu Sep 06 2007 Adam Williamson <awilliamson@mandriva.org> 5.4-1mdv2008.0
++ Revision: 80546
+- add patch0 (forces use of wxgtk 2.6, as the app can't handle 2.8)
+- remove some unnecessary substitutions i introduced while trying to fix the previous bug
+- fix encoding of et.py which was causing find-requires to trip up
+- Import icepodder
+
