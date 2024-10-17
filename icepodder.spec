@@ -19,7 +19,7 @@ Version:	5.5
 Release:	%{release}
 # Note: SVN is on sourceforge - AdamW 2008/12
 Source0:	http://www.icepodder.com/wp-content/uploads/2007/02/%{distname}
-URL:		http://www.icepodder.com/
+URL:		https://www.icepodder.com/
 License:	GPLv2+
 Group:		Networking/News
 BuildRoot:	%{_tmppath}/%{name}-buildroot
